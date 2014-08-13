@@ -9,7 +9,6 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
-import random
 import unittest
 from presentationScheduler import *
 
