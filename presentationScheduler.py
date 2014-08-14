@@ -1,6 +1,5 @@
 #-------------------------------------------------------------------------------
 # Name:        presentationScheduler
-# Purpose:
 #
 # Author:      Gouri Shankar Ghosh
 #
@@ -11,6 +10,11 @@ import csv, os
 import itertools
 
 def getRow(csvFile):
+    '''
+    Parameter:
+    csvFile <str> : CSV file name, from where the data will be fetched
+    return an generator of the row from the csv file
+    '''
     if os.path.exists(csvFile):
         data = csv.reader(open(csvFile))
         fields = data.next()
@@ -24,12 +28,33 @@ def getRow(csvFile):
 
 
 def findCombination(mxPresenterNum, data, totDur):
+    '''
+    Parameter:
+    mxPresenterNum <int> : The max number of presenter(s) for the combination
+    data <list of list> : the confrenence data
+    totDur <int> : Total confrenence duration in hour
+    '''
     return filter(lambda x: sum([ei[1] for ei in x]) == totDur, list(itertools.combinations(data, mxPresenterNum)))
 
 def sortData(data):
+    '''
+    Parameter:
+    data <list of list> : sort the data according to the cumulative cost for each
+    combination
+    '''
     return sorted(data, key=lambda x: sum([int(i[2]) for i in x]))
 
 def getMaxPresenterCombination(totSlot, confDuration, csvFile):
+    '''
+    Parameters :
+    totSlot <int> : Total available slot, for which we need to find max num of presenter
+    confDuration <int> : Total confrenence duration in hour
+    csvFile <str> : The csv file name from which we will fetch the data
+
+    Maximize the number of presenters - Select the case that fits in maximum number of
+    presenters in the given time schedule. If multiple cases satisfy this scenario,
+    select the ones with minimum cost.
+    '''
     data = list(getRow(csvFile))
     result = []
     for mxPresenterNum in range(totSlot, 0, -1):
@@ -54,6 +79,16 @@ def getMaxPresenterCombination(totSlot, confDuration, csvFile):
     return res if res else "Not enough presenters"
 
 def getMinCost(totSlot, confDuration, csvFile):
+    '''
+    Parameters :
+    totSlot <int> : Total available slot, for which we need to find minimum cost
+    confDuration <int> : Total confrenence duration in hour
+    csvFile <str> : The csv file name from which we will fetch the data
+
+    Minimize the cost - Select the case which results in minimum cost for the organizer.
+    If multiple cases satisfy this scenario, then select the ones with maximum number of
+    presenters.
+    '''
     data = list(getRow(csvFile))
     result = []
     for mxPresenterNum in range(1, totSlot+1):

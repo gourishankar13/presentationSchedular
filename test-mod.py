@@ -20,6 +20,8 @@ class TestPresentationScheduler(unittest.TestCase):
                              "data_not_enough_presenter.csv"]
 
     def test_normalInput(self):
+        '''Test for normal input'''
+
         CONFERENCE_DURATION = 8
         TOTAL_SLOT = 3
         USED_DATA_FILE = self.testDataFile[0]
@@ -33,6 +35,8 @@ class TestPresentationScheduler(unittest.TestCase):
         expectedRetVal = [['P6', 50]]
 
     def test_not_enough_presenter(self):
+        '''Test for no data'''
+
         expectedRetVal = "Not enough presenters"
         CONFERENCE_DURATION = 8
         TOTAL_SLOT = 3
@@ -45,6 +49,7 @@ class TestPresentationScheduler(unittest.TestCase):
         self.assertEqual(retMinCost, expectedRetVal)
 
     def test_some_date_contains_no_cost(self):
+        '''Test for faulty data'''
         CONFERENCE_DURATION = 8
         TOTAL_SLOT = 3
         USED_DATA_FILE = self.testDataFile[1]
